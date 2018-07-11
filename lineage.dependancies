@@ -1,0 +1,6 @@
+[
+  {
+    "repository": "CurveOS/android_device_sony_yoshino-common",
+    "target_path": "device/sony/yoshino-common"
+  }
+]
