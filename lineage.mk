@@ -19,7 +19,7 @@ $(call inherit-product, vendor/lineage/config/common_full_phone.mk)
 PRODUCT_NAME := lineage_maple
 PRODUCT_DEVICE := maple
 PRODUCT_BRAND := Sony
-PRODUCT_MODEL := G8141
+PRODUCT_MODEL := G8142
 PRODUCT_MANUFACTURER := Sony
 
 PRODUCT_BUILD_PROP_OVERRIDES += \
