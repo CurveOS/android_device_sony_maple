@@ -1,28 +1,23 @@
-### PLATFORM
-$(call inherit-product, device/sony/yoshino/platform.mk)
-### PROPRIETARY VENDOR FILES
+# call the proprietary setup
 $(call inherit-product, vendor/sony/maple/maple-vendor.mk)
 
-ifeq ($(WITH_FDROID),true)
-$(call inherit-product, vendor/fdroid/fdroid-vendor.mk)
-endif
-
-### DALVIK/HWUI
-$(call inherit-product, frameworks/native/build/phone-xhdpi-2048-dalvik-heap.mk)
-$(call inherit-product, frameworks/native/build/phone-xxhdpi-2048-hwui-memory.mk)
-
-DEVICE_PATH := device/sony/maple
-
-# Device uses high-density artwork where available
-PRODUCT_AAPT_CONFIG := normal hdpi xhdpi
-PRODUCT_AAPT_PREF_CONFIG := xhdpi
-
+# Local overlays
 DEVICE_PACKAGE_OVERLAYS += \
-    $(DEVICE_PATH)/overlay
+    $(LOCAL_PATH)/overlay \
+    $(LOCAL_PATH)/overlay-lineage
 
-ifeq ($(WITH_TWRP),true)
-include $(DEVICE_PATH)/device/init.mk
-else # WITH_TWRP
-include $(DEVICE_PATH)/device/*.mk
-include $(DEVICE_PATH)/vendor_prop.mk
-endif # WITH_TWRP
+# Properties
+-include $(LOCAL_PATH)/vendor_prop.mk
+
+# Audio
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/audio/audio_platform_info.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_platform_info.xml \
+    $(LOCAL_PATH)/audio/mixer_paths_mtp.xml:$(TARGET_COPY_OUT_VENDOR)/etc/mixer_paths_mtp.xml
+
+# NFC
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/nfc/libnfc-brcm.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-brcm.conf \
+    $(LOCAL_PATH)/nfc/libnfc-nxp.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nxp.conf
+
+# Inherit from yoshino-common
+$(call inherit-product, device/sony/yoshino-common/yoshino.mk)
